@@ -6,9 +6,9 @@ import Box from '@mui/material/Box';
 
 
 import { useDispatch } from 'react-redux';
-import { addItem } from './redux/Slice/cartSlice';
-import useProducts from '../utils/Hooks/useProducts';
-import useLoadingAndError from '../utils/Hooks/useLoadingAndError';
+import { addItem } from '../redux/Slice/cartSlice';
+import useProducts from '../../utils/Hooks/useProducts';
+import useLoadingAndError from '../../utils/Hooks/useLoadingAndError';
 
 interface Product {
   id: number;

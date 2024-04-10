@@ -4,8 +4,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "./ProductCard";
-import useProducts from "../utils/Hooks/useProducts";
-import useLoadingAndError from "../utils/Hooks/useLoadingAndError";
+import useProducts from "../../utils/Hooks/useProducts";
+import useLoadingAndError from "../../utils/Hooks/useLoadingAndError";
 
 interface Product {
   id: number;

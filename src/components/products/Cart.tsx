@@ -1,6 +1,6 @@
 import React ,{ useState }from "react";
-import { RootState } from "./redux/store";
-import { removeItem, addItem, decrementItem } from "./redux/Slice/cartSlice";
+import { RootState } from "../redux/store";
+import { removeItem, addItem, decrementItem } from "../redux/Slice/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Typography,
@@ -11,7 +11,7 @@ import {
   CardContent,
   CardActions,
 } from "@mui/material";
-import { calculateProductPrice, calculateTotalPrice, formatPrice } from "../utils/utilityFunctions";
+import { calculateProductPrice, calculateTotalPrice, formatPrice } from "../../utils/utilityFunctions";
 interface CartItem {
   id: number;
   title: string;

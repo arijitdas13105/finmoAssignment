@@ -3,8 +3,8 @@ import { AppBar, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { useSelector ,useDispatch} from 'react-redux';
-import { RootState } from './redux/store';
-import { clearCart } from './redux/Slice/cartSlice';
+import { RootState } from '../redux/store';
+import { clearCart } from '../redux/Slice/cartSlice';
 const StyledAppBar = styled(AppBar)({
   backgroundColor: '#1976d2',
 });
