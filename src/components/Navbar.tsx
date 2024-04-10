@@ -42,7 +42,6 @@ const Navbar: React.FC = () => {
   const userName = isLoggedIn ? localStorage.getItem('name') : 'Guest';
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
-  //  the total count of items in the cart
   const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   const handleLogout = () => {

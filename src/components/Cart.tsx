@@ -20,8 +20,7 @@ const Cart: React.FC = () => {
 
   console.log("cartItems");
   const handlePlaceOrder = () => {
-    // Logic to handle order placement
-    // For now, just setting the orderPlaced to true
+   
     setOrderPlaced(true);
   };
   const handleRemoveItem = (item: any) => {

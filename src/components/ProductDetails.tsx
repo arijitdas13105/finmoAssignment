@@ -36,8 +36,7 @@ const ProductDetails: React.FC = () => {
     console.log(product);
     
     if (product) {
-      const cartItem: CartItem = { ...product, quantity: 1 }; // Add quantity to product
-      dispatch(addItem(cartItem));
+      const cartItem: CartItem = { ...product, quantity: 1 }; 
 
     }
   };
