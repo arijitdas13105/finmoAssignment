@@ -1,17 +1,29 @@
-// Cart.tsx
+import React ,{ useState }from "react";
+import { RootState } from "./redux/store";
+import { removeItem, addItem, decrementItem } from "./redux/Slice/cartSlice";
 
-import React from 'react';
-import { RootState } from './redux/store';
-import { removeItem, addItem ,decrementItem} from './redux/Slice/cartSlice';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { Typography, Button, Grid, Card, CardMedia, CardContent, CardActions } from '@mui/material';;
+import { useSelector, useDispatch } from "react-redux";
+import {
+  Typography,
+  Button,
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+} from "@mui/material";
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
-  console.log("cartItems");
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
+  console.log("cartItems");
+  const handlePlaceOrder = () => {
+    // Logic to handle order placement
+    // For now, just setting the orderPlaced to true
+    setOrderPlaced(true);
+  };
   const handleRemoveItem = (item: any) => {
     dispatch(removeItem(item));
   };
@@ -22,7 +34,6 @@ const Cart: React.FC = () => {
 
   const handleDecrement = (item: any) => {
     if (item.quantity > 1) {
-      // dispatch(removeItem(item));
       dispatch(decrementItem(item));
     }
   };
@@ -39,41 +50,38 @@ const Cart: React.FC = () => {
     return (item.price * item.quantity).toFixed(0);
   };
   const buttonStyle: React.CSSProperties = {
-    minWidth: '30px',
-    height: '30px',
-    padding: '0 5px',
-    margin: '0 5px',
-    backgroundColor: '#1976d2',
-    color: 'white',
-  
+    minWidth: "30px",
+    height: "30px",
+    padding: "0 5px",
+    margin: "0 5px",
+    backgroundColor: "#1976d2",
+    color: "white",
   };
 
   const textStyle: React.CSSProperties = {
     fontFamily: "'Open Sans', sans-serif",
   };
   const priceStyle: React.CSSProperties = {
-    color: '#1976d2', // Primary color
-    fontWeight: 'bold',
+    color: "#1976d2",
+    fontWeight: "bold",
   };
 
   const totalProductPriceStyle: React.CSSProperties = {
-    color: '#388e3c', // Secondary color
-    fontWeight: 'bold',
+    color: "#388e3c",
+    fontWeight: "bold",
   };
 
   const quantityStyle: React.CSSProperties = {
-    color: '#555', // Neutral color
-    fontWeight:'bold'
+    color: "#555",
+    fontWeight: "bold",
   };
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
+    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
       <Typography variant="h4" gutterBottom>
         Shopping Cart
       </Typography>
       {cartItems.length === 0 ? (
-        <Typography variant="body1">
-          Your cart is empty
-        </Typography>
+        <Typography variant="body1">Your cart is empty</Typography>
       ) : (
         <Grid container spacing={3}>
           {cartItems.map((item: any) => (
@@ -86,28 +94,48 @@ const Cart: React.FC = () => {
                       alt={item.title}
                       image={item.image}
                       title={item.title}
-                      style={{ maxWidth: '75%', height: 'auto' }}
+                      style={{ maxWidth: "75%", height: "auto" }}
                     />
                   </Grid>
                   <Grid item xs={9}>
-                  <CardContent>
-          <Typography variant="h6" component="h2">
-            {item.title}
-          </Typography>
-          <Typography variant="body1" style={priceStyle}>
-            Price: ${item.price}
-          </Typography>
-          <Typography variant="body1" style={totalProductPriceStyle}>
-            Total Product Price: ${calculateProductPrice(item)}
-          </Typography>
-          <Typography variant="body2" style={quantityStyle}>
-            Quantity: {item.quantity}
-          </Typography>
-        </CardContent>
+                    <CardContent>
+                      <Typography variant="h6" component="h2">
+                        {item.title}
+                      </Typography>
+                      <Typography variant="body1" style={priceStyle}>
+                        Price: ${item.price}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        style={totalProductPriceStyle}
+                      >
+                        Total Product Price: ${calculateProductPrice(item)}
+                      </Typography>
+                      <Typography variant="body2" style={quantityStyle}>
+                        Quantity: {item.quantity}
+                      </Typography>
+                    </CardContent>
                     <CardActions>
-                      <Button size="small" style={buttonStyle} onClick={() => handleIncrement(item)}>+</Button>
-                      <Button size="small" style={buttonStyle} onClick={() => handleDecrement(item)}>-</Button>
-                      <Button size="small" color="secondary" style={buttonStyle} onClick={() => handleRemoveItem(item)}>
+                      <Button
+                        size="small"
+                        style={buttonStyle}
+                        onClick={() => handleIncrement(item)}
+                      >
+                        +
+                      </Button>
+                      <Button
+                        size="small"
+                        style={buttonStyle}
+                        onClick={() => handleDecrement(item)}
+                      >
+                        -
+                      </Button>
+                      <Button
+                        size="small"
+                        color="secondary"
+                        style={buttonStyle}
+                        onClick={() => handleRemoveItem(item)}
+                      >
                         Remove
                       </Button>
                     </CardActions>
@@ -120,6 +148,20 @@ const Cart: React.FC = () => {
             <Typography variant="h6">
               Total Price: ${calculateTotalPrice()}
             </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handlePlaceOrder}
+              style={{ marginTop: "10px" }}
+              disabled={orderPlaced}
+            >
+              Place Order
+            </Button>
+            {orderPlaced && (
+              <Typography variant="h6" color="secondary" style={{ marginTop: "10px" }}>
+                Order Placed Successfully!
+              </Typography>
+            )}
           </Grid>
         </Grid>
       )}

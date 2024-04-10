@@ -1,4 +1,3 @@
-//Navbar.tsx
 import React from 'react';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +21,7 @@ const Logo = styled(Typography)(({ theme }) => ({
 const Menu = styled('div')({
   display: 'flex',
   justifyContent: 'center',
-  flexGrow: 1, // This ensures the menu takes up the maximum available space
+  flexGrow: 1, 
 });
 
 const MenuItem = styled(Typography)(({ theme }) => ({
@@ -39,13 +38,11 @@ const RightMenu = styled('div')({
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const userName = localStorage.getItem('name');
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; // Check login status
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   const userName = isLoggedIn ? localStorage.getItem('name') : 'Guest';
   const cartItems = useSelector((state: RootState) => state.cart.items);
-  // Adjust path based on your Redux state structure
 
-  // Calculate the total count of items in the cart
+  //  the total count of items in the cart
   const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   const handleLogout = () => {

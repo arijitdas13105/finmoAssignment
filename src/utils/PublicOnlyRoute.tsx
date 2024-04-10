@@ -10,11 +10,10 @@ const PublicOnlyRoute: React.FC<PublicOnlyRouteProps> = ({ children }) => {
   const location = useLocation();
 
   if (isLoggedIn) {
-    // Redirect to products page or other page if logged in
     return <Navigate to="/products" state={{ from: location }} />;
   }
 
-  return children; // Render children components if not logged in
+  return children; 
 };
 
 export default PublicOnlyRoute;

@@ -1,4 +1,3 @@
-// SignUp.tsx
 import React, { useState } from 'react';
 import { Formik, FormikHelpers } from 'formik';
 import { TextField, Button, Container, Box } from '@mui/material';
@@ -21,7 +20,6 @@ const SignUp: React.FC = () => {
     { setSubmitting }: FormikHelpers<FormValues>
   ) => {
     try {
-      // Perform your form submission logic here
       localStorage.setItem('name', values.name);
 
       localStorage.setItem('email', values.email);

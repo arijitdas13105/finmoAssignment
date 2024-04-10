@@ -1,4 +1,3 @@
-// Products.tsx
 
 import React, { useState, useEffect } from 'react';
 import { Grid, Card, CardMedia, CardContent, Typography, CardActions, Button, Container, Chip } from '@mui/material';
