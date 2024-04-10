@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Paper, Grid, Typography, Button, CardMedia } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from './redux/Slice/cartSlice';
-// import { setCartProducts } from './redux/Slice/userSlice';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
+
+import { useDispatch } from 'react-redux';
+import { addItem } from './redux/Slice/cartSlice';
+import useProducts from '../utils/Hooks/useProducts';
+import useLoadingAndError from '../utils/Hooks/useLoadingAndError';
 
 interface Product {
   id: number;
@@ -20,29 +24,26 @@ interface CartItem extends Product {
 
 const ProductDetails: React.FC = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
-  const [product, setProduct] = useState<Product | null>(null);
+  const { id } = useParams<{ id: string }>();
+  const productId = id ? parseInt(id, 10) : undefined;
+  const { product, isLoading, error } = useProducts(productId);
   const navigate = useNavigate();
+  const loadingOrErrorComponent = useLoadingAndError(isLoading, error);
 
-  useEffect(() => {
-    fetch(`https://fakestoreapi.com/products/${id}`)
-      .then(res => res.json())
-      .then((data: Product) => setProduct(data))
-      .catch(error => console.error('Error fetching product details: ', error));
-  }, [id]);
-  const currentCartProducts = useSelector((state: any) => state.user.cartProducts);
+  if (loadingOrErrorComponent) return loadingOrErrorComponent;
 
+  
   const handleAddToCart = () => {
-    console.log(product);
-    
     if (product) {
-      const cartItem: CartItem = { ...product, quantity: 1 }; 
-
+      const cartItem: CartItem = { ...product, quantity: 1 };
+      dispatch(addItem(cartItem));
     }
   };
 
+ 
+
   if (!product) {
-    return <div>Loading...</div>;
+    return <div>Product not found</div>;
   }
 
   return (
@@ -75,6 +76,4 @@ const ProductDetails: React.FC = () => {
 export default ProductDetails;
 
 
-
-//-----------------------
 

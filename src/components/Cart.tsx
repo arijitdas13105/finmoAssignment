@@ -1,7 +1,6 @@
 import React ,{ useState }from "react";
 import { RootState } from "./redux/store";
 import { removeItem, addItem, decrementItem } from "./redux/Slice/cartSlice";
-
 import { useSelector, useDispatch } from "react-redux";
 import {
   Typography,
@@ -12,6 +11,14 @@ import {
   CardContent,
   CardActions,
 } from "@mui/material";
+import { calculateProductPrice, calculateTotalPrice, formatPrice } from "../utils/utilityFunctions";
+interface CartItem {
+  id: number;
+  title: string;
+  image: string;
+  price: number;
+  quantity: number;
+}
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
@@ -37,17 +44,17 @@ const Cart: React.FC = () => {
     }
   };
 
-  const calculateTotalPrice = () => {
-    let total = 0;
-    cartItems.forEach((item: any) => {
-      total += item.price * item.quantity;
-    });
-    return total.toFixed(0);
-  };
+  // const calculateTotalPrice = () => {
+  //   let total = 0;
+  //   cartItems.forEach((item: any) => {
+  //     total += item.price * item.quantity;
+  //   });
+  //   return total.toFixed(0);
+  // };
 
-  const calculateProductPrice = (item: any) => {
-    return (item.price * item.quantity).toFixed(0);
-  };
+  // const calculateProductPrice = (item: any) => {
+  //   return (item.price * item.quantity).toFixed(0);
+  // };
   const buttonStyle: React.CSSProperties = {
     minWidth: "30px",
     height: "30px",
@@ -97,18 +104,18 @@ const Cart: React.FC = () => {
                     />
                   </Grid>
                   <Grid item xs={9}>
-                    <CardContent>
+                  <CardContent>
                       <Typography variant="h6" component="h2">
                         {item.title}
                       </Typography>
                       <Typography variant="body1" style={priceStyle}>
-                        Price: ${item.price}
+                        Price: {formatPrice(item.price)}
                       </Typography>
                       <Typography
                         variant="body1"
                         style={totalProductPriceStyle}
                       >
-                        Total Product Price: ${calculateProductPrice(item)}
+                        Total Product Price: {formatPrice(calculateProductPrice(item))}
                       </Typography>
                       <Typography variant="body2" style={quantityStyle}>
                         Quantity: {item.quantity}
@@ -144,9 +151,10 @@ const Cart: React.FC = () => {
             </Grid>
           ))}
           <Grid item xs={12}>
-            <Typography variant="h6">
-              Total Price: ${calculateTotalPrice()}
-            </Typography>
+          <Typography variant="h6">
+  Total Price: {formatPrice(calculateTotalPrice(cartItems))}
+</Typography>
+
             <Button
               variant="contained"
               color="primary"

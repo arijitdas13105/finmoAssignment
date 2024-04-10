@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  CardActions,
-  Button,
-  Container,
-  Chip,
-} from "@mui/material";
+import React, { useState } from "react";
+import { Grid, Container, Chip } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
+import ProductCard from "./ProductCard";
+import useProducts from "../utils/Hooks/useProducts";
+import useLoadingAndError from "../utils/Hooks/useLoadingAndError";
 
 interface Product {
   id: number;
@@ -21,17 +16,12 @@ interface Product {
 }
 
 const Products: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const { products, isLoading, error } = useProducts();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const navigate = useNavigate();
+  const loadingOrErrorComponent = useLoadingAndError(isLoading, error);
 
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data: Product[]) => setProducts(data))
-      .catch((error) => console.error("Error fetching data: ", error));
-  }, []);
-
+  if (loadingOrErrorComponent) return loadingOrErrorComponent;
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category === "All" ? null : category);
   };
@@ -39,30 +29,6 @@ const Products: React.FC = () => {
   const filteredProducts = selectedCategory
     ? products.filter((product) => product.category === selectedCategory)
     : products;
-
-  const cardStyle: React.CSSProperties = {
-    height: "450px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-  };
-  const priceStyle: React.CSSProperties = {
-    fontSize: "1.2em", 
-    fontWeight: "bold", 
-    color: "#e53935", 
-    padding: "5px 10px", 
-    borderRadius: "5px", 
-    marginTop: "10px", 
-  };
-  const cardMediaStyle: React.CSSProperties = {
-    height: "60%",
-    backgroundSize: "contain",
-    backgroundPosition: "center",
-  };
-
-  const goToProductDetails = (id: number) => {
-    navigate(`/product/${id}`);
-  };
 
   return (
     <Container style={{ marginTop: "20px" }}>
@@ -90,40 +56,7 @@ const Products: React.FC = () => {
       <Grid container spacing={4}>
         {filteredProducts.map((product) => (
           <Grid item key={product.id} xs={12} sm={6} md={4}>
-            <Card style={cardStyle}>
-              <CardMedia
-                style={cardMediaStyle}
-                image={product.image}
-                title={product.title}
-              />
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  style={{
-                    fontFamily: "'Roboto Condensed', sans-serif",
-                    fontWeight: 400,
-                  }}
-                >
-                  {product.title}
-                </Typography>
-
-                <Typography variant="body1" style={priceStyle}>
-                  ${product.price}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  size="small"
-                  color="primary"
-                  onClick={() => goToProductDetails(product.id)}
-                
-                >
-                  View
-                </Button>
-              </CardActions>
-            </Card>
+            <ProductCard product={product} />
           </Grid>
         ))}
       </Grid>
